@@ -111,7 +111,7 @@ void loop() {
         countTjunction += 1; //add 1 to countTjunction when both left and right sensors detect white
       }
   }
-  else if (bumperSensor && countBumper == 1 && countTfunction >=2 && countTfunction <=6) 
+  else if (bumperSensor && countBumper == 1 && countTfunction >=2 && countTfunction <=5) 
     // 2nd T (360 degree spin)
   {
     analogWrite(pinL_PWM, 150);
@@ -122,7 +122,7 @@ void loop() {
         countTjunction += 1; //add 1 to countTjunction when both left and right sensors detect white
       }
   }
-  else if (bumperSensor && countBumper == 1 && countTfunction == 7) 
+  else if (bumperSensor && countBumper == 1 && countTfunction == 6) 
     // 3rd Tjunction (go straight line) 
   {
     if ( !leftSensor && rightSensor ) {
@@ -148,8 +148,9 @@ void loop() {
     if ( !leftSensor && !rightSensor ) {
         countTjunction += 1; //add 1 to countTjunction when both left and right sensors detect white
       }
-  else if (bumperSensor && countBumper == 1 && countTfunction == 8) 
-    // 4th Tjunction (stop) 
+  }
+  else if (bumperSensor && countBumper == 1 && countTfunction == 7) 
+  {// 4th Tjunction (stop) 
     analogWrite(pinL_PWM, 0);
     analogWrite(pinR_PWM, 0);
   }  
