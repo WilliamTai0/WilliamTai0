@@ -114,8 +114,37 @@ void loop() {
         countTjunction += 1; //add 1 to countTjunction when both left and right sensors detect white
       }
   }
-  else if (bumperSensor && countBumper == 1 && countTjunction <= 6)
+  else if (bumperSensor && countBumper == 1 && countTfunction ==2 && countTfunction <=6) // second T
   {
+    analogWrite(pinL_PWM, 150);
+    analogWrite(pinR_PWM, 150);
+    digitalWrite(pinL_DIR, 0);
+    digitalWrite(pinR_DIR, 1); 
+    if ( !leftSensor && !rightSensor ) {
+        countTjunction += 1; //add 1 to countTjunction when both left and right sensors detect white
+  }
+  else if (bumperSensor && countBumper == 1 && countTfunction == 7)
+  {
+    if ( !leftSensor && rightSensor ) {
+        analogWrite(pinL_PWM, 150);
+        analogWrite(pinR_PWM, 150);
+        digitalWrite(pinL_DIR, 0);
+        digitalWrite(pinR_DIR, 1);  
+      }
     
+    if ( leftSensor && !rightSensor ) {
+        analogWrite(pinL_PWM, 150);
+        analogWrite(pinR_PWM, 150);
+        digitalWrite(pinL_DIR, 1);
+        digitalWrite(pinR_DIR, 0);  
+      }
+    
+    if ( leftSensor && rightSensor ) {
+        analogWrite(pinL_PWM, 150);
+        analogWrite(pinR_PWM, 150);
+        digitalWrite(pinL_DIR, 1);
+        digitalWrite(pinR_DIR, 1);  
+      }
+  }
   }  
 }
