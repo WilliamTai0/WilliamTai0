@@ -75,14 +75,15 @@ void loop() {
     delay(350);     //to let the car leave the start position with no miscount
   }
   
-  // car is tracking on the white line
-  else if ( bumperSensor && countBumper == 1) 
+  // car is tracking on the white line (first T)
+  else if ( bumperSensor && countBumper == 1 ) 
   { 
     if ( !leftSensor && !rightSensor ) {
         analogWrite(pinL_PWM, 150);
         analogWrite(pinR_PWM, 150);
         digitalWrite(pinL_DIR, 1);
         digitalWrite(pinR_DIR, 0); 
+        countTjunction += 1; //add 1 to countTjunction when both left and right sensors detect white
       }
     
     if ( !leftSensor && rightSensor ) {
