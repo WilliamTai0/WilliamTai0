@@ -78,7 +78,7 @@ void loop() {
   // car is tracking on the white line (first T)
   else if ( bumperSensor && countBumper == 1 && countTjunction <= 1) 
   { 
-    if ( !leftSensor && !rightSensor ) {
+    if ( !leftSensor && !rightSensor && countTjunction == 0) {
         analogWrite(pinL_PWM, 150);
         analogWrite(pinR_PWM, 150);
         digitalWrite(pinL_DIR, 1);
@@ -105,6 +105,13 @@ void loop() {
         analogWrite(pinR_PWM, 150);
         digitalWrite(pinL_DIR, 1);
         digitalWrite(pinR_DIR, 1);  
+      }
+    if ( !leftSensor && !rightSensor && countTjunction == 1) {
+        analogWrite(pinL_PWM, 150);
+        analogWrite(pinR_PWM, 150);
+        digitalWrite(pinL_DIR, 1);
+        digitalWrite(pinR_DIR, 1); 
+        countTjunction += 1; //add 1 to countTjunction when both left and right sensors detect white
       }
   }
   else if (bumperSensor && countBumper == 1 && countTjunction <= 6)
