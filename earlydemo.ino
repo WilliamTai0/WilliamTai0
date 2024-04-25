@@ -28,6 +28,7 @@ int leftSensor = 1;    // not sensing white
 int rightSensor = 1;   // not sensing white
 
 int countBumper = 0;   // bumper sensor not triggered yet
+int countTjunction = 0; // for detecting T-junctions
 
 // the setup function runs once when you press reset or power the board
 
