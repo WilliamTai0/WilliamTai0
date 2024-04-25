@@ -148,8 +148,9 @@ void loop() {
         countTjunction += 1; //add 1 to countTjunction when both left and right sensors detect white
       }
   else if (bumperSensor && countBumper == 1 && countTfunction == 8) 
-    // 4th Tjunction (stop) 
+    // 4th Tjunction (stop then resume) 
     analogWrite(pinL_PWM, 0);
     analogWrite(pinR_PWM, 0);
+    delay
   }  
 }
