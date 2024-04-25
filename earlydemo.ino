@@ -127,6 +127,8 @@ void loop() {
   {
     analogWrite(pinL_PWM, 200);
     analogWrite(pinR_PWM, 200);
+    digitalWrite(pinL_DIR, 1);
+    digitalWrite(pinR_DIR, 1); 
     delay(350);     //to let the car leave the tfunction with no miscountif 
     ( !leftSensor && rightSensor ) {
         analogWrite(pinL_PWM, 200);
