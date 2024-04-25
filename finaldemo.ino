@@ -122,7 +122,7 @@ void loop() {
         countTjunction += 1; //add 1 to countTjunction when both left and right sensors detect white
       }
   else if (bumperSensor && countBumper == 1 && countTfunction == 7) 
-    // 3rd Tjunction (go straight line) 
+    // 3rd Tjunction (go straight line after 360) 
   {
     if ( !leftSensor && rightSensor ) {
         analogWrite(pinL_PWM, 150);
