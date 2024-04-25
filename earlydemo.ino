@@ -75,8 +75,9 @@ void loop() {
     delay(350);     //to let the car leave the start position with no miscount
   }
   
-  // car is tracking on the white line (first T)
+  // car is tracking on the white line 
   else if ( bumperSensor && countBumper == 1 && countTjunction <= 1) 
+    //1st Tjunction (turn right)
   { 
     if ( !leftSensor && !rightSensor && countTjunction == 0) {
         analogWrite(pinL_PWM, 150);
@@ -110,7 +111,8 @@ void loop() {
         countTjunction += 1; //add 1 to countTjunction when both left and right sensors detect white
       }
   }
-  else if (bumperSensor && countBumper == 1 && countTfunction >=2 && countTfunction <=6) // second T (360 degree spin)
+  else if (bumperSensor && countBumper == 1 && countTfunction >=2 && countTfunction <=6) 
+    // 2nd T (360 degree spin)
   {
     analogWrite(pinL_PWM, 150);
     analogWrite(pinR_PWM, 150);
@@ -119,7 +121,8 @@ void loop() {
     if ( !leftSensor && !rightSensor ) {
         countTjunction += 1; //add 1 to countTjunction when both left and right sensors detect white
       }
-  else if (bumperSensor && countBumper == 1 && countTfunction == 7) // third T (go straight line) 
+  else if (bumperSensor && countBumper == 1 && countTfunction == 7) 
+    // 3rd Tjunction (go straight line) 
   {
     if ( !leftSensor && rightSensor ) {
         analogWrite(pinL_PWM, 150);
@@ -144,6 +147,9 @@ void loop() {
     if ( !leftSensor && !rightSensor ) {
         countTjunction += 1; //add 1 to countTjunction when both left and right sensors detect white
       }
-  else if (bumperSensor && countBumper == 1 && countTfunction == 8)
+  else if (bumperSensor && countBumper == 1 && countTfunction == 8) 
+    // 4th Tjunction (stop) 
+    analogWrite(pinL_PWM, 0);
+    analogWrite(pinR_PWM, 0);
   }  
 }
