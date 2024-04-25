@@ -127,7 +127,6 @@ void loop() {
   {
     analogWrite(pinL_PWM, 200);
     analogWrite(pinR_PWM, 200);
-    countBumper = countBumper + 1;
     delay(350);     //to let the car leave the tfunction with no miscountif 
     ( !leftSensor && rightSensor ) {
         analogWrite(pinL_PWM, 200);
