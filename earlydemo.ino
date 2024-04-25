@@ -69,8 +69,8 @@ void loop() {
 
   // bumper sensor is triggered at the start position for the 1st time
   else if ( !bumperSensor && countBumper == 0) {
-    analogWrite(pinL_PWM, 150);
-    analogWrite(pinR_PWM, 150);
+    analogWrite(pinL_PWM, 200);
+    analogWrite(pinR_PWM, 200);
     countBumper = countBumper + 1;
     delay(350);     //to let the car leave the start position with no miscount
   }
@@ -80,30 +80,30 @@ void loop() {
     //1st Tjunction (turn right)
   { 
     if ( !leftSensor && !rightSensor && countTjunction == 0) {
-        analogWrite(pinL_PWM, 150);
-        analogWrite(pinR_PWM, 150);
+        analogWrite(pinL_PWM, 200);
+        analogWrite(pinR_PWM, 200);
         digitalWrite(pinL_DIR, 1);
         digitalWrite(pinR_DIR, 0); 
         countTjunction += 1; //add 1 to countTjunction when both left and right sensors detect white
       }
     
     if ( !leftSensor && rightSensor ) {
-        analogWrite(pinL_PWM, 150);
-        analogWrite(pinR_PWM, 150);
+        analogWrite(pinL_PWM, 200);
+        analogWrite(pinR_PWM, 200);
         digitalWrite(pinL_DIR, 0);
         digitalWrite(pinR_DIR, 1);  
       }
     
     if ( leftSensor && !rightSensor ) {
-        analogWrite(pinL_PWM, 150);
-        analogWrite(pinR_PWM, 150);
+        analogWrite(pinL_PWM, 200);
+        analogWrite(pinR_PWM, 200);
         digitalWrite(pinL_DIR, 1);
         digitalWrite(pinR_DIR, 0);  
       }
     
     if ( leftSensor && rightSensor ) {
-        analogWrite(pinL_PWM, 150);
-        analogWrite(pinR_PWM, 150);
+        analogWrite(pinL_PWM, 200);
+        analogWrite(pinR_PWM, 200);
         digitalWrite(pinL_DIR, 1);
         digitalWrite(pinR_DIR, 1);  
       }
@@ -114,8 +114,8 @@ void loop() {
   else if (bumperSensor && countBumper == 1 && countTfunction >=2 && countTfunction <=5) 
     // 2nd T (360 degree spin)
   {
-    analogWrite(pinL_PWM, 150);
-    analogWrite(pinR_PWM, 150);
+    analogWrite(pinL_PWM, 200);
+    analogWrite(pinR_PWM, 200);
     digitalWrite(pinL_DIR, 0);
     digitalWrite(pinR_DIR, 1); 
     if ( !leftSensor && !rightSensor ) {
@@ -125,27 +125,27 @@ void loop() {
   else if (bumperSensor && countBumper == 1 && countTfunction == 6) 
     // 3rd Tjunction (go straight line) 
   {
-    analogWrite(pinL_PWM, 150);
-    analogWrite(pinR_PWM, 150);
+    analogWrite(pinL_PWM, 200);
+    analogWrite(pinR_PWM, 200);
     countBumper = countBumper + 1;
     delay(350);     //to let the car leave the tfunction with no miscountif 
     ( !leftSensor && rightSensor ) {
-        analogWrite(pinL_PWM, 150);
-        analogWrite(pinR_PWM, 150);
+        analogWrite(pinL_PWM, 200);
+        analogWrite(pinR_PWM, 200);
         digitalWrite(pinL_DIR, 0);
         digitalWrite(pinR_DIR, 1);  
       }
     
     if ( leftSensor && !rightSensor ) {
-        analogWrite(pinL_PWM, 150);
-        analogWrite(pinR_PWM, 150);
+        analogWrite(pinL_PWM, 200);
+        analogWrite(pinR_PWM, 200);
         digitalWrite(pinL_DIR, 1);
         digitalWrite(pinR_DIR, 0);  
       }
     
     if ( leftSensor && rightSensor ) {
-        analogWrite(pinL_PWM, 150);
-        analogWrite(pinR_PWM, 150);
+        analogWrite(pinL_PWM, 200);
+        analogWrite(pinR_PWM, 200);
         digitalWrite(pinL_DIR, 1);
         digitalWrite(pinR_DIR, 1);  
       }
