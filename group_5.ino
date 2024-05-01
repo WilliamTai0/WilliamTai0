@@ -4,7 +4,7 @@
   To program the car tracking the white line on a dark mat
 
   Group No. 5 (number of your project box):  
-  Group Member 1 (name & SID): Wu Chun Fei Gabriel
+  Group Member 1 (name & SID): Wu Chun Fei Gabriel 20985696
   Group Member 2 (name & SID): TAI Wing Kuen 2098393
   
 */
