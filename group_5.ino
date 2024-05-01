@@ -1,7 +1,5 @@
 /*
-  ELEC1100 Your Lab#06 & Project Template
-
-  To program the car tracking the white line on a dark mat
+  ELEC1100 earlydemo
 
   Group No. 5 (number of your project box):  
   Group Member 1 (name & SID): Wu Chun Fei Gabriel 20985696
