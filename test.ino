@@ -85,11 +85,9 @@ void loop() {
         digitalWrite(pinL_DIR, HIGH);
         digitalWrite(pinR_DIR, 0); 
         delay(300);
-        //if(leftSensor || rightSensor){
         countTjunction+=1;
-        //}
       }
-    else if(countTjunction==2&&count360==0) {
+    else if(countTjunction==2&&count360==0) {//360 spin
         analogWrite(pinL_PWM, 200);
         analogWrite(pinR_PWM, 200);
         digitalWrite(pinL_DIR, LOW);
@@ -98,9 +96,67 @@ void loop() {
         count360 += 1;
         countTjunction+=1;
     }
-    else if(countTjunction==4)
+    else if(countTjunction==4)//stop then resume
     {
-      countStop=1;
+      analogWrite(pinL_PWM, 0);
+      analogWrite(pinR_PWM, 0);
+      delay(1000);
+      analogWrite(pinL_PWM, 150);
+      analogWrite(pinR_PWM, 150);
+      digitalWrite(pinL_DIR, HIGH);
+      digitalWrite(pinR_DIR, HIGH);
+      delay(100);
+      countTjunction+=1;
+    }
+    else if (countTjunction==6)//turn left, ignore first junction
+    {
+      analogWrite(pinL_PWM, 150);
+      analogWrite(pinR_PWM, 150);
+      digitalWrite(pinL_DIR, 0);
+      digitalWrite(pinR_DIR, HIGH);
+      delay(300);
+      analogWrite(pinL_PWM, 150);
+      analogWrite(pinR_PWM, 150);
+      digitalWrite(pinL_DIR, 1);
+      digitalWrite(pinR_DIR, 1);
+      delay(400);
+      countTjunction+=1;
+    }  
+    else if(countTjunction==8)//task 13 ignore left white line
+    {
+      analogWrite(pinL_PWM, 150);
+      analogWrite(pinR_PWM, 150);
+      digitalWrite(pinL_DIR, 1);
+      digitalWrite(pinR_DIR, 0);
+      delay(150);
+      countTjunction+=1;
+    }
+    else if(countTjunction==10)//180 spin
+    {
+        analogWrite(pinL_PWM, 200);
+        analogWrite(pinR_PWM, 200);
+        digitalWrite(pinL_DIR, LOW);
+        digitalWrite(pinR_DIR, 1); 
+        delay(600); 
+        countTjunction+=1;
+    }      
+    else if(countTjunction==12)//turn left 
+    {
+        analogWrite(pinL_PWM, 150);
+        analogWrite(pinR_PWM, 150);
+        digitalWrite(pinL_DIR, 0);
+        digitalWrite(pinR_DIR, 1); 
+        delay(300);
+        countTjunction+=1; 
+    }
+    else if(countTjunction==14)//task16 turn right ignore left white line
+    {
+      analogWrite(pinL_PWM, 150);
+      analogWrite(pinR_PWM, 150);
+      digitalWrite(pinL_DIR, 0);
+      digitalWrite(pinR_DIR, 1);
+      delay(150);
+      countTjunction+=1;
     }
     else if ( !leftSensor && !rightSensor ) {
         countTjunction+=1;  
