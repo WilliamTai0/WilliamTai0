@@ -76,7 +76,7 @@ void loop() {
   }
   
   // car is tracking on the white line
-  else if ( bumperSensor && countBumper == 1&&countStop==0) 
+  else if ( bumperSensor && countBumper == 1) 
   { 
     if ( !leftSensor && !rightSensor &&countTjunction==0) {
       // Turn right
@@ -149,14 +149,13 @@ void loop() {
         delay(300);
         countTjunction+=1; 
     }
-    else if(countTjunction==14)//task16 turn right ignore left white line
-    {
-      analogWrite(pinL_PWM, 150);
-      analogWrite(pinR_PWM, 150);
-      digitalWrite(pinL_DIR, 0);
-      digitalWrite(pinR_DIR, 1);
-      delay(150);
-      countTjunction+=1;
+    else if ( !bumperSensor && countBumper == 1) {
+        analogWrite(pinL_PWM, 150);
+        analogWrite(pinR_PWM, 150);
+        digitalWrite(pinL_DIR, 0);
+        digitalWrite(pinR_DIR, 0);
+        delay(350);
+        countStop==1;
     }
     else if ( !leftSensor && !rightSensor ) {
         countTjunction+=1;  
