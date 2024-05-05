@@ -27,7 +27,7 @@ int rightSensor = 1;   // not sensing white
 
 int countBumper = 0;   // bumper sensor not triggered yet
 int countTjunction = 0; // for detecting T-junctions
-
+int junctionAction = 0; //flag for action at Tjunction
 
 // the setup function runs once when you press reset or power the board
 
@@ -77,25 +77,24 @@ void loop() {
   // car is tracking on the white line
   else if ( bumperSensor && countBumper == 1) 
   { 
-    if ( !leftSensor && !rightSensor &&countTjunction==0) {
+    if ( countTjunction==1 && junctionAction==1) {
       // Turn right
         analogWrite(pinL_PWM, 150);
         analogWrite(pinR_PWM, 150);
         digitalWrite(pinL_DIR, HIGH);
         digitalWrite(pinR_DIR, 0); 
         delay(300);
-        countTjunction+=1;
+        junctionAction==0;
       }
-    else if(countTjunction==2&&count360==0) {//360 spin
+    else if(countTjunction==2&& junctionAction==1) {//360 spin
         analogWrite(pinL_PWM, 200);
         analogWrite(pinR_PWM, 200);
         digitalWrite(pinL_DIR, LOW);
         digitalWrite(pinR_DIR, 1); 
         delay(1200);
-        count360 += 1;
-        countTjunction+=1;
+        junctionAction==0;
     }
-    else if(countTjunction==4)//stop then resume
+    else if(countTjunction==3&& junctionAction==1)//stop then resume
     {
       analogWrite(pinL_PWM, 0);
       analogWrite(pinR_PWM, 0);
@@ -105,9 +104,9 @@ void loop() {
       digitalWrite(pinL_DIR, HIGH);
       digitalWrite(pinR_DIR, HIGH);
       delay(100);
-      countTjunction+=1;
+      junctionAction==0;
     }
-    else if (countTjunction==6)//turn left, ignore first junction
+    else if (countTjunction==4&& junctionAction==1)//turn left, ignore first junction
     {
       analogWrite(pinL_PWM, 150);
       analogWrite(pinR_PWM, 150);
@@ -119,34 +118,34 @@ void loop() {
       digitalWrite(pinL_DIR, 1);
       digitalWrite(pinR_DIR, 1);
       delay(400);
-      countTjunction+=1;
+      junctionAction==0;
     }  
-    else if(countTjunction==8)//task 13 ignore left white line
+    else if(countTjunction==5&& junctionAction==1)//task 13 ignore left white line
     {
       analogWrite(pinL_PWM, 150);
       analogWrite(pinR_PWM, 150);
       digitalWrite(pinL_DIR, 1);
       digitalWrite(pinR_DIR, 0);
       delay(150);
-      countTjunction+=1;
+      junctionAction==0;
     }
-    else if(countTjunction==10)//180 spin
+    else if(countTjunction==6&& junctionAction==1)//180 spin
     {
         analogWrite(pinL_PWM, 200);
         analogWrite(pinR_PWM, 200);
         digitalWrite(pinL_DIR, LOW);
         digitalWrite(pinR_DIR, 1); 
         delay(600); 
-        countTjunction+=1;
+        junctionAction==0;
     }      
-    else if(countTjunction==12)//turn left 
+    else if(countTjunction==7&& junctionAction==1)//turn left 
     {
         analogWrite(pinL_PWM, 150);
         analogWrite(pinR_PWM, 150);
         digitalWrite(pinL_DIR, 0);
         digitalWrite(pinR_DIR, 1); 
         delay(300);
-        countTjunction+=1; 
+        junctionAction==0;
     }
     else if ( !bumperSensor && countBumper == 1) {
         analogWrite(pinL_PWM, 150);
@@ -154,10 +153,11 @@ void loop() {
         digitalWrite(pinL_DIR, 0);
         digitalWrite(pinR_DIR, 0);
         delay(350);
-        countStop==1;
+        countBumper +=1;
     }
     else if ( !leftSensor && !rightSensor ) {
-        countTjunction+=1;  
+        countTjunction+=1; 
+        junctionAction==1;
     } 
     //follow straight line
     if ( !leftSensor && rightSensor ) {
