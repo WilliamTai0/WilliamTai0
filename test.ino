@@ -29,6 +29,9 @@ int countBumper = 0;   // bumper sensor not triggered yet
 int countTjunction = 0; // for detecting T-junctions
 int count360=0;
 int countStop=0;
+unsigned long lastTjunctionTime = 0; // store the last passed Tjunction time
+const unsigned long TjunctionCD = 10000; // cooldown 8s for not miscounting Tjunction
+
 
 // the setup function runs once when you press reset or power the board
 
@@ -78,7 +81,7 @@ void loop() {
   // car is tracking on the white line
   else if ( bumperSensor && countBumper == 1) 
   { 
-    if ( !leftSensor && !rightSensor &&countTjunction==0) {
+    if ( !leftSensor && !rightSensor &&countTjunction==0) {// 1st tjunction
       // Turn right
         analogWrite(pinL_PWM, 150);
         analogWrite(pinR_PWM, 150);
@@ -86,8 +89,9 @@ void loop() {
         digitalWrite(pinR_DIR, 0); 
         delay(300);
         countTjunction+=1;
+        lastTjunctionTime == millis(); // store 1st passed Tjunction time
       }
-    else if(countTjunction==2&&count360==0) {//360 spin
+    else if(countTjunction==2 && count360==0 && millis() >= (lastTjunctionTime+TjunctionCD)) {//360 spin
         analogWrite(pinL_PWM, 200);
         analogWrite(pinR_PWM, 200);
         digitalWrite(pinL_DIR, LOW);
