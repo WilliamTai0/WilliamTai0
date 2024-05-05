@@ -120,7 +120,7 @@ void loop() {
       delay(400);
       junctionAction==0;
     }  
-    else if(countTjunction==5&& junctionAction==1)//task 13 ignore left white line
+    else if(countTjunction==5&& junctionAction==1)//task 13 turn right ignore left white line
     {
       analogWrite(pinL_PWM, 150);
       analogWrite(pinR_PWM, 150);
