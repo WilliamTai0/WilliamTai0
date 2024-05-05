@@ -30,7 +30,7 @@ int countTjunction = 0; // for detecting T-junctions
 int count360=0;
 int countStop=0;
 unsigned long lastTjunctionTime = 0; // store the last passed Tjunction time
-const unsigned long TjunctionCD = 10000; // cooldown 8s for not miscounting Tjunction
+const unsigned long TjunctionCD = 10000; // cooldown 10s for not miscounting Tjunction
 
 
 // the setup function runs once when you press reset or power the board
