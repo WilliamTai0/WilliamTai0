@@ -3,7 +3,7 @@
 
   Group No. (number of your project box):  5
   Group Member 1 (name & SID): Wu Chun Fei Gabriel 20985696
-  Group Member 2 (name & SID): TAI Wing Kuen 2098393
+  Group Member 2 (name & SID): TAI Wing Kuen 20983973
   
 */
 
@@ -159,10 +159,17 @@ void loop() {
         digitalWrite(pinL_DIR, 0);
         digitalWrite(pinR_DIR, 0);
         delay(350);
-        countStop==1;
+        countBumper+=1;
     }
-    else if ( !leftSensor && !rightSensor ) {
+    else if ( !leftSensor && !rightSensor && millis() >= (lastTjunctionTime+TjunctionCD)) {
         countTjunction+=1;  
+    }
+    else if ( !leftSensor && !rightSensor && millis() < (lastTjunctionTime+TjunctionCD)) {
+        // Move straight
+        analogWrite(pinL_PWM, 150);
+        analogWrite(pinR_PWM, 150);
+        digitalWrite(pinL_DIR, HIGH);
+        digitalWrite(pinR_DIR, HIGH);  
     } 
     //follow straight line
     if ( !leftSensor && rightSensor ) {
@@ -188,10 +195,11 @@ void loop() {
         digitalWrite(pinL_DIR, HIGH);
         digitalWrite(pinR_DIR, HIGH);  
       }
-    if(countStop==1)
+
+  }
+    if(countBumper==2)
     {
       analogWrite(pinL_PWM, 0);
       analogWrite(pinR_PWM, 0);      
     }
-  }
   }
