@@ -29,7 +29,7 @@ int countBumper = 0;   // bumper sensor not triggered yet
 int countTjunction = 0; // for detecting T-junctions
 int count360=0;
 int countStop=0;
-unsigned long lastTjunctionTime = 0; // store the last passed Tjunction time
+unsigned long lastTjunctionTime = 0; // store the last Tjunction time
 const unsigned long TjunctionCD = 10000; // cooldown 10s for not miscounting Tjunction
 
 
@@ -86,10 +86,10 @@ void loop() {
         analogWrite(pinL_PWM, 150);
         analogWrite(pinR_PWM, 150);
         digitalWrite(pinL_DIR, HIGH);
-        digitalWrite(pinR_DIR, 0); 
+        digitalWrite(pinR_DIR, 0);
+        lastTjunctionTime == millis(); // store 1st Tjunction time
         delay(300);
         countTjunction+=1;
-        lastTjunctionTime == millis(); // store 1st passed Tjunction time
       }
     else if(countTjunction==2 && count360==0 && millis() >= (lastTjunctionTime+TjunctionCD)) {//360 spin
         analogWrite(pinL_PWM, 200);
