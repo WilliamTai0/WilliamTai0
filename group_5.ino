@@ -24,9 +24,9 @@ const int pinR_DIR = 12;         //pin D12: right motor direction
 int bumperSensor = 1;  // not sensing white
 int leftSensor = 1;    // not sensing white
 int rightSensor = 1;   // not sensing white
-
 int countBumper = 0;   // bumper sensor not triggered yet
 int countTjunction = 0; // for detecting T-junctions
+
 int exitTurn = 0; 
 int lastDirection =0;
 
