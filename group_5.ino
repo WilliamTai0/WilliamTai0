@@ -1,9 +1,9 @@
 /*
-  ELEC1100 earlydemo
+  ELEC1100 finaldemo
 
   Group No. (number of your project box):  5
   Group Member 1 (name & SID): Wu Chun Fei Gabriel 20985696
-  Group Member 2 (name & SID): TAI Wing Kuen 2098393
+  Group Member 2 (name & SID): TAI Wing Kuen 20983973
   
 */
 
@@ -27,8 +27,12 @@ int rightSensor = 1;   // not sensing white
 
 int countBumper = 0;   // bumper sensor not triggered yet
 int countTjunction = 0; // for detecting T-junctions
-int count360=0;
-int countStop=0;
+int exitTurn = 0; 
+int lastDirection =0;
+
+unsigned long lastTjunctionTime = 0; // store the last Tjunction time
+const unsigned long TjunctionCD = 8000; // cooldown 10s for not miscounting Tjunction
+
 
 // the setup function runs once when you press reset or power the board
 
@@ -76,34 +80,138 @@ void loop() {
   }
   
   // car is tracking on the white line
-  else if ( bumperSensor && countBumper == 1&&countStop==0) 
+  else if ( bumperSensor && countBumper == 1) 
   { 
-    if ( !leftSensor && !rightSensor &&countTjunction==0) {
+    if ( !leftSensor && !rightSensor &&countTjunction==0) {// 1st tjunction
+      lastTjunctionTime = millis(); // store 1st Tjunction time
       // Turn right
         analogWrite(pinL_PWM, 150);
         analogWrite(pinR_PWM, 150);
         digitalWrite(pinL_DIR, HIGH);
-        digitalWrite(pinR_DIR, 0); 
-        delay(300);
-        //if(leftSensor || rightSensor){
+        digitalWrite(pinR_DIR, 0);
+        delay(400);
         countTjunction+=1;
-        //}
       }
-    else if(countTjunction==2&&count360==0) {
+    else if(countTjunction==2) {//360 spin
         analogWrite(pinL_PWM, 200);
         analogWrite(pinR_PWM, 200);
         digitalWrite(pinL_DIR, LOW);
         digitalWrite(pinR_DIR, 1); 
-        delay(1200);
-        count360 += 1;
+        delay(1300);
+        analogWrite(pinL_PWM, 200);
+        analogWrite(pinR_PWM, 200);
+        digitalWrite(pinL_DIR, 1);
+        digitalWrite(pinR_DIR, 0); 
+        delay(100);
+        analogWrite(pinL_PWM, 200);
+        analogWrite(pinR_PWM, 200);
+        digitalWrite(pinL_DIR, 1);
+        digitalWrite(pinR_DIR, 1); 
+        delay(150);
         countTjunction+=1;
     }
-    else if(countTjunction==4)
+    else if(countTjunction==4)//stop then resume
     {
-      countStop=1;
+      analogWrite(pinL_PWM, 0);
+      analogWrite(pinR_PWM, 0);
+      delay(1000);
+      analogWrite(pinL_PWM, 150);
+      analogWrite(pinR_PWM, 150);
+      digitalWrite(pinL_DIR, HIGH);
+      digitalWrite(pinR_DIR, HIGH);
+      delay(100);
+      countTjunction+=1;
     }
-    else if ( !leftSensor && !rightSensor ) {
+    else if (countTjunction==6)//turn left, ignore first junction
+    {
+        analogWrite(pinL_PWM, 80);
+        analogWrite(pinR_PWM, 200);
+        digitalWrite(pinL_DIR, 0);
+        digitalWrite(pinR_DIR, 1); 
+        delay(510) ;
+        analogWrite(pinL_PWM, 80);
+        analogWrite(pinR_PWM, 200);
+        digitalWrite(pinL_DIR, 1);
+        digitalWrite(pinR_DIR, 0); 
+        delay(50) ;
+        analogWrite(pinL_PWM, 150);
+        analogWrite(pinR_PWM, 150);
+        digitalWrite(pinL_DIR, 1);
+        digitalWrite(pinR_DIR, 1); 
+        delay(1000);
+      countTjunction+=1;
+    }  
+    else if(countTjunction==8)//task 13 turn right ignore left white line
+    {
+      analogWrite(pinL_PWM, 150);
+      analogWrite(pinR_PWM, 150);
+      digitalWrite(pinL_DIR, 1);
+      digitalWrite(pinR_DIR, 0);
+      delay(200);
+      countTjunction+=1;
+    }
+    else if(countTjunction==10)//180 spin
+    {
+        analogWrite(pinL_PWM, 200);
+        analogWrite(pinR_PWM, 200);
+        digitalWrite(pinL_DIR, LOW);
+        digitalWrite(pinR_DIR, 1); 
+        delay(600); 
+        countTjunction+=1;
+    }      
+    else if(countTjunction==12)//turn left 
+    {
+        analogWrite(pinL_PWM, 150);
+        analogWrite(pinR_PWM, 150);
+        digitalWrite(pinL_DIR, 0);
+        digitalWrite(pinR_DIR, 1); 
+        delay(400);
+        countTjunction+=1; 
+    }
+    else if (countTjunction==14){//turn right ignore left line
+      analogWrite(pinL_PWM, 150);
+      analogWrite(pinR_PWM, 150);
+      digitalWrite(pinL_DIR, 1);
+      digitalWrite(pinR_DIR, 0);
+      delay(200);
+      countTjunction+=1;
+    }
+    else if ( !bumperSensor && countBumper == 1) {
+        analogWrite(pinL_PWM, 150);
+        analogWrite(pinR_PWM, 150);
+        digitalWrite(pinL_DIR, 0);
+        digitalWrite(pinR_DIR, 0);
+        delay(500);
+        countBumper+=1;
+    }
+    else if ( exitTurn==0&&!leftSensor && !rightSensor && millis() >= (lastTjunctionTime+TjunctionCD)) {
         countTjunction+=1;  
+    }
+    else if ( exitTurn==0&&!leftSensor && !rightSensor && millis() < (lastTjunctionTime+TjunctionCD)) {
+        exitTurn=1;
+    }
+    if(exitTurn==1){
+        if( lastDirection==1)  
+        {
+        analogWrite(pinL_PWM, 150);
+        analogWrite(pinR_PWM, 150);
+        digitalWrite(pinL_DIR, 0);
+        digitalWrite(pinR_DIR, HIGH);
+        if(leftSensor && rightSensor){
+          exitTurn=0;
+        }
+        }
+        else if (lastDirection==2)
+        {
+                // Turn right
+        analogWrite(pinL_PWM, 150);
+        analogWrite(pinR_PWM, 150);
+        digitalWrite(pinL_DIR, HIGH);
+        digitalWrite(pinR_DIR, 0);  
+        if(leftSensor && rightSensor){
+          exitTurn=0;
+        }
+        }
     } 
     //follow straight line
     if ( !leftSensor && rightSensor ) {
@@ -112,6 +220,7 @@ void loop() {
         analogWrite(pinR_PWM, 150);
         digitalWrite(pinL_DIR, 0);
         digitalWrite(pinR_DIR, HIGH);
+         lastDirection=1;
       }
     
     if ( leftSensor && !rightSensor ) {
@@ -120,6 +229,7 @@ void loop() {
         analogWrite(pinR_PWM, 150);
         digitalWrite(pinL_DIR, HIGH);
         digitalWrite(pinR_DIR, 0);  
+        lastDirection=2;
       }
     
     if ( leftSensor && rightSensor ) {
@@ -129,10 +239,11 @@ void loop() {
         digitalWrite(pinL_DIR, HIGH);
         digitalWrite(pinR_DIR, HIGH);  
       }
-    if(countStop==1)
+
+  }
+    if(countBumper==2)
     {
       analogWrite(pinL_PWM, 0);
       analogWrite(pinR_PWM, 0);      
     }
-  }
   }
